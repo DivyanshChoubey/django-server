@@ -2,7 +2,6 @@ from django.db import models
 from service.models import Roles
 
 class Users(models.Model):
-    user_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
