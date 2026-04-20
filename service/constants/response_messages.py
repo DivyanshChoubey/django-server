@@ -9,3 +9,4 @@ class ResponseMessages:
     INCORRECT_PASSWORD = "Incorrect password."
     LOGOUT_SUCCESS = "You've logged out successfully!"
     INVALID_DATA= "Invalid input data."
+    NO_ACTIVE_SESSION_FOUND = "No active session found for this user."

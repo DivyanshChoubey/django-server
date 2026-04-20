@@ -1,14 +1,16 @@
-import jwt
-import bcrypt
 from datetime import datetime, timedelta
-from django.utils import timezone
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from service.models import Users, UserActiveToken
-from service.serializers import LoginSerializer
-from service.constants.response_messages import ResponseMessages
+
+import bcrypt
+import jwt
 from django.conf import settings
+from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from service.constants import ResponseMessages
+from service.models import UserActiveToken, Users
+from service.serializers import LoginSerializer
 
 
 class LoginView(APIView):
@@ -25,8 +27,8 @@ class LoginView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        email = serializer.validated_data["email"]
-        password = serializer.validated_data["password"]
+        email = serializer.validated_data.get("email")
+        password = serializer.validated_data.get("password")
 
         try:
             user = Users.objects.get(email=email)
@@ -55,7 +57,7 @@ class LoginView(APIView):
         }
         token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
         UserActiveToken.objects.create(
-            user_id=user,
+            user=user,
             token=token,
             is_active=True,
             expire_at=timezone.now() + timedelta(days=1)
