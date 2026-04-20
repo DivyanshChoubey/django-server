@@ -1,6 +1,7 @@
 from django.db import models
 from service.models import Permissions
 
+
 class Roles(models.Model):
     name = models.CharField(max_length=50, unique=True)
     is_root = models.BooleanField(default=False)

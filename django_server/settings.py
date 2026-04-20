@@ -12,6 +12,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = ['*']
 USE_SQLITE = os.environ.get('USE_SQLITE', '') == 'True'
+JWT_SECRET = os.getenv("JWT_SECRET")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
