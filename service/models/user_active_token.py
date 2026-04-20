@@ -1,6 +1,7 @@
 from django.db import models
 from service.models import Users
 
+
 class UserActiveToken(models.Model):
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     token = models.CharField(max_length=512, unique=True)

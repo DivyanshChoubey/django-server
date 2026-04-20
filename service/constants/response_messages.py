@@ -1,3 +1,11 @@
 class ResponseMessages:
     SERVICE_UP = "Service is up and running"
     ROOT_MESSAGE = "You are on the root"
+    USER_CREATED = "User has been created successfully!"
+    USER_ALREADY_EXISTS = "User with this email already exists."
+    INVALID_ROLE = "Invalid role_id."
+    LOGIN_SUCCESS = "User has been logged in successfully!"
+    EMAIL_NOT_EXISTS = "Email does not exist."
+    INCORRECT_PASSWORD = "Incorrect password."
+    LOGOUT_SUCCESS = "You've logged out successfully!"
+    INVALID_DATA= "Invalid input data."
