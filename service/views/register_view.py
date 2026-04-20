@@ -1,10 +1,11 @@
 import bcrypt
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
-from service.models import Users, Roles
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from service.constants import ResponseMessages
+from service.models import Roles, Users
 from service.serializers import RegisterSerializer
-from service.constants.response_messages import ResponseMessages
 
 
 class RegisterView(APIView):
@@ -21,7 +22,7 @@ class RegisterView(APIView):
             )
 
         validated_data = serializer.validated_data
-        email = validated_data["email"]
+        email = validated_data.get("email")
 
         if Users.objects.filter(email=email).exists():
             return Response(
@@ -33,7 +34,7 @@ class RegisterView(APIView):
             )
 
         try:
-            role = Roles.objects.get(id=validated_data["role_id"])
+            role = Roles.objects.get(id=validated_data.get("role_id"))
         except Roles.DoesNotExist:
             return Response(
                 {
@@ -44,18 +45,18 @@ class RegisterView(APIView):
             )
 
         hashed_password = bcrypt.hashpw(
-            validated_data["password"].encode("utf-8"),
+            validated_data.get("password").encode("utf-8"),
             bcrypt.gensalt()
         ).decode("utf-8")
 
         Users.objects.create(
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
-            email=validated_data["email"],
+            first_name=validated_data.get("first_name"),
+            last_name=validated_data.get("last_name"),
+            email=validated_data.get("email"),
             password=hashed_password,
             role=role,
             bio=validated_data.get("bio", ""),
-            position_name=validated_data["position_name"]
+            position_name=validated_data.get("position_name")
         )
 
         return Response(

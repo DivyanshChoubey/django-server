@@ -4,7 +4,7 @@ from service.views import *
 
 urlpatterns = [
     path('Healthcheck', HealthCheckView.as_view(), name='Healthcheck'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login', LoginView.as_view(), name='login'),
-    path('logout', LogoutView.as_view(), name='logout'),
+    path('Register', RegisterView.as_view(), name='Register'),
+    path('Login', LoginView.as_view(), name='Login'),
+    path('Logout', LogoutView.as_view(), name='Logout'),
 ]
