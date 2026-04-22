@@ -1,6 +1,5 @@
 from django.db import models
 from service.models import AdminUser
-from service.models import DepartmentMaster
 
 
 class Teams(models.Model):
