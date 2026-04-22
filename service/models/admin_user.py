@@ -1,16 +1,16 @@
 from django.db import models
+from service.models import Roles
 
 
-class Users(models.Model):
+class AdminUser(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
-    bio = models.TextField(max_length=250, blank=True)
-    position_name = models.CharField(max_length=50)
-    is_active = models.BooleanField(default=True)
+    role = models.ForeignKey(Roles, on_delete=models.DO_NOTHING)
+    last_login = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table='users'
+        db_table='admin_user'
