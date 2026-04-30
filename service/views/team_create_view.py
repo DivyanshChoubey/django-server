@@ -19,6 +19,7 @@ class TeamCreateView(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
+
         name = serializer.validated_data.get("name")
         description = serializer.validated_data.get("description")
         created_by = serializer.validated_data.get("created_by")
@@ -35,7 +36,7 @@ class TeamCreateView(APIView):
                     },
                     status = status.HTTP_400_BAD_REQUEST 
                 )
-            
+
         team = Teams.objects.create(
             name = name,
             description = description,

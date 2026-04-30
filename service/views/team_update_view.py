@@ -9,7 +9,7 @@ from service.models import Teams
 class TeamUpdateView(APIView):
     def patch(self,request):
         serializer = TeamUpdateSerializer(data=request.data)
-        
+
         if not serializer.is_valid():
             return Response(
                 {
@@ -19,7 +19,7 @@ class TeamUpdateView(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
-        
+
         team_id = serializer.validated_data.get("id")
         name = serializer.validated_data.get("name")
         description = serializer.validated_data.get("description")
@@ -34,11 +34,11 @@ class TeamUpdateView(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
-        
+
         team.name = name
         team.description = description
         team.save()
-        
+
         return Response(
             {
                 "success": True,

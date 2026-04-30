@@ -17,7 +17,7 @@ class TeamDeleteView(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
-        
+
         team.delete()
 
         return Response(

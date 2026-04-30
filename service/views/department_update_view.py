@@ -20,6 +20,7 @@ class DepartmentUpdateView(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
+
         department_id = serializer.validated_data.get("id")
         name = serializer.validated_data.get("name")
 
@@ -33,6 +34,7 @@ class DepartmentUpdateView(APIView):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
+
         department.name = name
         department.save()
 

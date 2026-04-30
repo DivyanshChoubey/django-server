@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-
+from datetime import timedelta
 import bcrypt
 import jwt
 from django.conf import settings
@@ -7,7 +6,6 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from service.constants import ResponseMessages
 from service.models import UserActiveToken, Users
 from service.serializers import LoginSerializer
@@ -49,6 +47,7 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         payload = {
             "user_id": user.id,
             "user_type": user.user_type,
@@ -62,6 +61,7 @@ class LoginView(APIView):
             is_active=True,
             expire_at=timezone.now() + timedelta(days=1)
         )
+
         return Response(
             {
                 "success": True,

@@ -23,10 +23,3 @@ class Constants:
         ADMIN: "Admin",
         SUPER_ADMIN: "Super Admin",
     }
-
-# daily task Constants
-# daily task status
-
-# daily report Constants
-
-# status
