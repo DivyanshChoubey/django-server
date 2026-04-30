@@ -23,3 +23,24 @@ class Constants:
         ADMIN: "Admin",
         SUPER_ADMIN: "Super Admin",
     }
+
+class DailyReportConstants:
+    DRAFT = "draft"
+    SUBMITTED = "submitted"
+
+    STATUS_CHOICES = (
+        (DRAFT, "Draft"),
+        (SUBMITTED, "Submitted"),
+    )
+
+
+class TaskConstants:
+    NOT_STARTED = "not_started"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+
+    STATUS_CHOICES = (
+        (NOT_STARTED, "Not Started"),
+        (IN_PROGRESS, "In Progress"),
+        (COMPLETED, "Completed"),
+    )
