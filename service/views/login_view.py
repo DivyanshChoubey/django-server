@@ -49,13 +49,13 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
-        expiry_time = datetime.utcnow() + timedelta(days=1)
         payload = {
             "user_id": user.id,
-            "email": user.email,
-            "exp": expiry_time
+            "user_type": user.user_type,
         }
+
         token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
+
         UserActiveToken.objects.create(
             user=user,
             token=token,

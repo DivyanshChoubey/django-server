@@ -12,3 +12,21 @@ class ResponseStatuses:
     NO_CONTENT = status.HTTP_204_NO_CONTENT
     CONFLICT = status.HTTP_409_CONFLICT
     UNPROCESSABLE_ENTITY = status.HTTP_422_UNPROCESSABLE_ENTITY
+
+class Constants:
+    USER = "USER"
+    ADMIN = "ADMIN"
+    SUPER_ADMIN = "SUPER_ADMIN"
+
+    USER_TYPES = {
+        USER: "User",
+        ADMIN: "Admin",
+        SUPER_ADMIN: "Super Admin",
+    }
+
+# daily task Constants
+# daily task status
+
+# daily report Constants
+
+# status

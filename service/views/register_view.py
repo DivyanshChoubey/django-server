@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
-from service.models import Roles, Users
+from service.models import Users
 from service.serializers import RegisterSerializer
 
 
@@ -33,17 +33,6 @@ class RegisterView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        try:
-            role = Roles.objects.get(id=validated_data.get("role_id"))
-        except Roles.DoesNotExist:
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.INVALID_ROLE
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
         hashed_password = bcrypt.hashpw(
             validated_data.get("password").encode("utf-8"),
             bcrypt.gensalt()
@@ -54,9 +43,9 @@ class RegisterView(APIView):
             last_name=validated_data.get("last_name"),
             email=validated_data.get("email"),
             password=hashed_password,
-            role=role,
             bio=validated_data.get("bio", ""),
-            position_name=validated_data.get("position_name")
+            position_name=validated_data.get("position_name"),
+            user_type=validated_data.get("user_type")
         )
 
         return Response(
