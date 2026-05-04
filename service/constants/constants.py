@@ -12,3 +12,35 @@ class ResponseStatuses:
     NO_CONTENT = status.HTTP_204_NO_CONTENT
     CONFLICT = status.HTTP_409_CONFLICT
     UNPROCESSABLE_ENTITY = status.HTTP_422_UNPROCESSABLE_ENTITY
+
+class Constants:
+    USER = "USER"
+    ADMIN = "ADMIN"
+    SUPER_ADMIN = "SUPER_ADMIN"
+
+    USER_TYPES = {
+        USER: "User",
+        ADMIN: "Admin",
+        SUPER_ADMIN: "Super Admin",
+    }
+
+class DailyReportConstants:
+    DRAFT = "draft"
+    SUBMITTED = "submitted"
+
+    STATUS_CHOICES = (
+        (DRAFT, "Draft"),
+        (SUBMITTED, "Submitted"),
+    )
+
+
+class TaskConstants:
+    NOT_STARTED = "not_started"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+
+    STATUS_CHOICES = (
+        (NOT_STARTED, "Not Started"),
+        (IN_PROGRESS, "In Progress"),
+        (COMPLETED, "Completed"),
+    )

@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
 from service.models import UserActiveToken
-from service.serializers.logout_serializer import LogoutSerializer
+from service.serializers import LogoutSerializer
 
 
 class LogoutView(APIView):
@@ -20,6 +20,7 @@ class LogoutView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         user_id = serializer.validated_data.get("user_id")
         updated_count = UserActiveToken.objects.filter(
             user_id=user_id,
@@ -34,6 +35,7 @@ class LogoutView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
         return Response(
             {
                 "success": True,
