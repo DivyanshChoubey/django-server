@@ -51,15 +51,9 @@ class LoginView(APIView):
         payload = {
             "user_id": user.id,
             "user_type": user.user_type,
-            "iat": timezone.now().timestamp()
         }
 
         token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
-
-        UserActiveToken.objects.filter(
-            user=user,
-            is_active=True
-        ).update(is_active=False)
 
         UserActiveToken.objects.create(
             user=user,
@@ -81,7 +75,4 @@ class LoginView(APIView):
         )
     
     def check_password(self, input_password, actual_password):
-        return bcrypt.checkpw(
-        input_password.encode("utf-8"),
-        actual_password.encode("utf-8")
-    )
+        return input_password == actual_password
