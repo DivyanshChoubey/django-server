@@ -39,7 +39,7 @@ class LoginView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
+        if not self.check_password(password, user.password):
             return Response(
                 {
                     "success": False,
@@ -51,9 +51,15 @@ class LoginView(APIView):
         payload = {
             "user_id": user.id,
             "user_type": user.user_type,
+            "iat": timezone.now().timestamp()
         }
 
         token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
+
+        UserActiveToken.objects.filter(
+            user=user,
+            is_active=True
+        ).update(is_active=False)
 
         UserActiveToken.objects.create(
             user=user,
@@ -73,3 +79,9 @@ class LoginView(APIView):
             },
             status=status.HTTP_200_OK
         )
+    
+    def check_password(self, input_password, actual_password):
+        return bcrypt.checkpw(
+        input_password.encode("utf-8"),
+        actual_password.encode("utf-8")
+    )
