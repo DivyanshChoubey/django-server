@@ -39,7 +39,7 @@ class LoginView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
+        if not self.check_password(password, user.password):
             return Response(
                 {
                     "success": False,
@@ -73,3 +73,6 @@ class LoginView(APIView):
             },
             status=status.HTTP_200_OK
         )
+    
+    def check_password(self, input_password, actual_password):
+        return input_password == actual_password
