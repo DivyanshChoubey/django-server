@@ -9,21 +9,21 @@ from service.serializers import LogoutSerializer
 
 class LogoutView(APIView):
     def post(self, request):
-        serializer = LogoutSerializer(data=request.data)
+        token = request.auth
+        user = request.user
 
-        if not serializer.is_valid():
+        if not token:
             return Response(
                 {
                     "success": False,
-                    "message": ResponseMessages.INVALID_DATA,
-                    "errors": serializer.errors
+                    "message": ResponseMessages.UNAUTHORIZED
                 },
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_401_UNAUTHORIZED
             )
 
-        user_id = serializer.validated_data.get("user_id")
         updated_count = UserActiveToken.objects.filter(
-            user_id=user_id,
+            user=user,
+            token=token,
             is_active=True
         ).update(is_active=False)
 

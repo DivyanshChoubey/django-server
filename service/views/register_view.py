@@ -1,5 +1,5 @@
-import bcrypt
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -9,6 +9,7 @@ from service.serializers import RegisterSerializer
 
 
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
 
@@ -34,16 +35,11 @@ class RegisterView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        hashed_password = bcrypt.hashpw(
-            validated_data.get("password").encode("utf-8"),
-            bcrypt.gensalt()
-        ).decode("utf-8")
-
         Users.objects.create(
             first_name=validated_data.get("first_name"),
             last_name=validated_data.get("last_name"),
             email=validated_data.get("email"),
-            password=hashed_password,
+            password=validated_data.get("password"),
             bio=validated_data.get("bio", ""),
             position_name=validated_data.get("position_name"),
             user_type=validated_data.get("user_type")

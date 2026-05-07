@@ -1,12 +1,14 @@
-from datetime import timedelta
-
+from datetime import timedelta, datetime
+import uuid
 import bcrypt
 import jwt
 from django.conf import settings
 from django.utils import timezone
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 
 from service.constants import ResponseMessages
 from service.models import UserActiveToken, Users
@@ -14,6 +16,8 @@ from service.serializers import LoginSerializer
 
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
 
@@ -53,6 +57,9 @@ class LoginView(APIView):
         payload = {
             "user_id": user.id,
             "user_type": user.user_type,
+            "iat": timezone.now(),
+            "exp": timezone.now() + timedelta(days=1),
+            "jti": str(uuid.uuid4())
         }
 
         token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
