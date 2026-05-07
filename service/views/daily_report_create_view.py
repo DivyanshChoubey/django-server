@@ -4,10 +4,11 @@ from rest_framework.views import APIView
 
 from service.models import DailyReport, DailyTask, TaskPRLink, Users
 from service.serializers import DailyReportCreateSerializer
-
+from service.utils import Authentication
 
 class DailyReportCreateView(APIView):
     def post(self, request):
+        user, token = Authentication.authenticate(request=request)
         serializer = DailyReportCreateSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -23,13 +24,22 @@ class DailyReportCreateView(APIView):
         description = serializer.validated_data.get("description")
         report_status = serializer.validated_data.get("status")
         tasks = serializer.validated_data.get("tasks",[])
-        user = request.user
-        
+
+        existing_report = self._check_existing_report(report_date)
+        if existing_report:
+            return Response(
+                {
+                    "success": False,
+                    "errors": f"Report already exists for {report_date}"
+                },
+                status = status.HTTP_400_BAD_REQUEST
+            )
+
         daily_report = DailyReport.objects.create(
-            user = user,
-            report_date = report_date,
-            description = description,
-            status = report_status 
+            user=user,
+            report_date=report_date,
+            description=description,
+            status=report_status 
         )
 
         for task in tasks:
@@ -57,3 +67,6 @@ class DailyReportCreateView(APIView):
             },
             status=status.HTTP_201_CREATED
         ) 
+
+    def _check_existing_report(self, report_date):
+        return DailyReport.objects.filter(report_date=report_date).first()
