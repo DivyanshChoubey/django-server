@@ -14,5 +14,6 @@ urlpatterns = [
     path('Admin/CreateTeam', TeamCreateView.as_view(), name='CreateTeam'),
     path('Admin/UpdateTeam', TeamUpdateView.as_view(), name='UpdateTeam'),
     path('Admin/DeleteTeam/<int:id>',TeamDeleteView.as_view(), name ='DeleteTeam'),
-    path('User/CreateDailyReport/Create', DailyReportCreateView.as_view(), name="daily-report-create")
+    path('User/CreateDailyReport/Create', DailyReportCreateView.as_view(), name="daily-report-create"),
+    path('User/GetDailyReports', DailyReportView.as_view(), name='GetDailyReports')
 ]
