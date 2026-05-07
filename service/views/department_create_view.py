@@ -1,10 +1,10 @@
-from rest_framework.views import APIView
-from service.serializers import DepartmentCreateSerializer
-from rest_framework.response import Response
-from service.constants import ResponseMessages
 from rest_framework import status
-from service.models import Users,DepartmentMaster
-from service.constants import Constants
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from service.constants import Constants, ResponseMessages
+from service.models import DepartmentMaster, Users
+from service.serializers import DepartmentCreateSerializer
 
 
 class DepartmentCreateView(APIView):

@@ -1,6 +1,6 @@
 from django.urls import path
-from service.views import *
 
+from service.views import *
 
 urlpatterns = [
     path('Healthcheck', HealthCheckView.as_view(), name='Healthcheck'),
@@ -13,6 +13,6 @@ urlpatterns = [
     path('Admin/GetTeams', TeamsView.as_view(), name='GetTeams'),
     path('Admin/CreateTeam', TeamCreateView.as_view(), name='CreateTeam'),
     path('Admin/UpdateTeam', TeamUpdateView.as_view(), name='UpdateTeam'),
-    path('Admin/DeleteTeam/<int:id>/',TeamDeleteView.as_view(), name ='DeleteTeam'),
-    path('DailyReport/Create/', DailyReportCreateView.as_view(), name="daily-report-create")
+    path('Admin/DeleteTeam/<int:id>',TeamDeleteView.as_view(), name ='DeleteTeam'),
+    path('User/CreateDailyReport/Create', DailyReportCreateView.as_view(), name="daily-report-create")
 ]

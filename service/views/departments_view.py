@@ -1,9 +1,10 @@
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from service.constants import ResponseMessages
 from service.models import DepartmentMaster
 from service.serializers import DepartmentSerializer
-from rest_framework.response import Response
-from service.constants import ResponseMessages
-from rest_framework import status
 
 
 class DepartmentsView(APIView):

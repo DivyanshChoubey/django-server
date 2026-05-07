@@ -1,4 +1,5 @@
 from django.db import models
+
 from service.constants import DailyReportConstants
 from service.models import Users
 

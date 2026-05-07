@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from service.constants import DailyReportConstants, TaskConstants
 
 
@@ -18,7 +19,6 @@ class DailyTaskSerializer(serializers.Serializer):
 
 
 class DailyReportCreateSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
     report_date = serializers.DateField()
     description = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     status = serializers.ChoiceField(choices=DailyReportConstants.STATUS_CHOICES)
