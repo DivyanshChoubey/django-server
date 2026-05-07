@@ -11,6 +11,8 @@ class DailyTask(models.Model):
     status = models.CharField(max_length=20,choices=TaskConstants.STATUS_CHOICES,default=TaskConstants.NOT_STARTED)
     hours = models.IntegerField(default=0)
     minutes = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "daily_task"
