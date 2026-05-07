@@ -1,4 +1,5 @@
 from datetime import timedelta
+
 import bcrypt
 import jwt
 from django.conf import settings
@@ -6,6 +7,7 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from service.constants import ResponseMessages
 from service.models import UserActiveToken, Users
 from service.serializers import LoginSerializer

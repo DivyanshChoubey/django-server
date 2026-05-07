@@ -1,9 +1,10 @@
-from rest_framework.views import APIView
-from service.serializers import TeamCreateSerializer
-from rest_framework.response import Response
-from service.constants import ResponseMessages
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from service.constants import ResponseMessages
 from service.models import Teams, Users
+from service.serializers import TeamCreateSerializer
 
 
 class TeamCreateView(APIView):

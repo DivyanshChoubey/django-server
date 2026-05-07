@@ -25,3 +25,4 @@ class ResponseMessages:
     TEAM_UPDATED = "Team update successfully."
     TEAM_DELETE_SUCCESS = "Team deleted successfully"
     UNAUTHORIZED = "Unauthorize user"
+    INVALID_USER = "Invalid user id"

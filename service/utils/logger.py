@@ -1,6 +1,7 @@
 import logging
 import sys
 
+
 def get_logger(name: str = 'django_server'):
     logger = logging.getLogger(name)
     if not logger.handlers:

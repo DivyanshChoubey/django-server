@@ -1,5 +1,6 @@
 from django.db import models
-from service.models import Users, Teams
+
+from service.models import Teams, Users
 
 
 class TeamUserMapping(models.Model):
