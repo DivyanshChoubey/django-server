@@ -12,7 +12,9 @@ __all__=[
     "TaskPRLinkSerializer",
     "DailyTaskSerializer",
     "DailyReportCreateSerializer",
-    "DailyReportGetSerializer"
+    "DailyReportGetSerializer",
+    "DailyReportUpdateSerializer",
+    "DailyResportUpdateview"
 ]
 
 from service.serializers.auth_serializer import RegisterSerializer, LoginSerializer, LogoutSerializer
@@ -21,3 +23,5 @@ from service.serializers.team_serializer import TeamSerializer, TeamCreateSerial
 from service.serializers.teams_user_mapping_serializer import TeamsUserMappingSerializers
 from service.serializers.daily_report_serializer import TaskPRLinkSerializer, DailyTaskSerializer, DailyReportCreateSerializer
 from service.serializers.daily_report_get_serializer import DailyReportGetSerializer
+from service.serializers.daily_report_update_serializer import DailyReportUpdateSerializer
+from service.views.daily_report_update_view import DailyResportUpdateview

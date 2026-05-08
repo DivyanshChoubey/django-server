@@ -12,7 +12,8 @@ __all__ = [
     "TeamUpdateView",
     "TeamDeleteView",
     "DailyReportCreateView",
-    "DailyReportView"
+    "DailyReportView",
+    "DailyResportUpdateview"
 ]
 
 from service.views.healthcheck_view import HealthCheckView
@@ -29,3 +30,4 @@ from service.views.team_update_view import TeamUpdateView
 from service.views.team_delete_view import TeamDeleteView
 from service.views.daily_report_create_view import DailyReportCreateView
 from service.views.daily_report_view import DailyReportView
+from service.views.daily_report_update_view import DailyResportUpdateview
