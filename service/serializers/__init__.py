@@ -24,4 +24,3 @@ from service.serializers.teams_user_mapping_serializer import TeamsUserMappingSe
 from service.serializers.daily_report_serializer import TaskPRLinkSerializer, DailyTaskSerializer, DailyReportCreateSerializer
 from service.serializers.daily_report_get_serializer import DailyReportGetSerializer
 from service.serializers.daily_report_update_serializer import DailyReportUpdateSerializer
-from service.views.daily_report_update_view import DailyResportUpdateview
