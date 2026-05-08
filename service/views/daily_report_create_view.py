@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from service.models import DailyReport, DailyTask, TaskPRLink, Users
 from service.serializers import DailyReportCreateSerializer
 from service.utils import Authentication
+from service.constants import ResponseMessages
 
 class DailyReportCreateView(APIView):
     def post(self, request):
@@ -43,7 +44,7 @@ class DailyReportCreateView(APIView):
                 return Response(
                     {
                         "success": False,
-                        "errors": "PR link is allowed only for development task"
+                        "message": ResponseMessages.INVALID_PR_LINK
                     },
                     status=status.HTTP_400_BAD_REQUEST
                 )
