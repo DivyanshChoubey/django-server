@@ -30,7 +30,7 @@ class DailyReportUpdateView(APIView):
             return Response(
                 {
                     "success": False,
-                    "message": ResponseMessages.REPORT_NOT_Found
+                    "message": ResponseMessages.REPORT_NOT_FOUND
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
@@ -88,7 +88,7 @@ class DailyReportUpdateView(APIView):
                 return Response(
                     {
                         "success": False,
-                        "message": ResponseMessages.TASK_NOT_Found
+                        "message": ResponseMessages.TASK_NOT_FOUND
                     },
                     status=status.HTTP_400_BAD_REQUEST
                 )

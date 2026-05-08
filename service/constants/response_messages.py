@@ -28,6 +28,6 @@ class ResponseMessages:
     INVALID_USER = "Invalid User ID."
     DAILY_REPORT_FETCH = "Fetch daily report successfully."
     INVALID_PR_LINK = "PR link is allowed only for development task"
-    REPORT_NOT_Found = "Daily report not found"
-    TASK_NOT_Found = "Daily task not found"
+    REPORT_NOT_FOUND = "Daily report not found"
+    TASK_NOT_FOUND = "Daily task not found"
     REPORT_UPDATE_SUCCESS = "Daily report updated successfully"
