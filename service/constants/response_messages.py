@@ -27,3 +27,4 @@ class ResponseMessages:
     UNAUTHORIZED = "Unauthorized User"
     INVALID_USER = "Invalid User ID."
     DAILY_REPORT_FETCH = "Fetch daily report successfully."
+    INVALID_PR_LINK = "PR link is allowed only for development task"

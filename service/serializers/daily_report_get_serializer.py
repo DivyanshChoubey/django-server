@@ -9,9 +9,7 @@ class TaskPRLinkSerializer(serializers.ModelSerializer):
         model = TaskPRLink
         fields = [
             "id",
-            "url",
-            "created_at",
-            "updated_at"
+            "url"
         ]
 
 
@@ -28,10 +26,10 @@ class DailyTaskSerializer(serializers.ModelSerializer):
             "pr_link",
             "status",
             "hours",
-            "minutes",
-            "created_at",
-            "updated_at"
+            "minutes"
         ]
+
+
     def get_pr_link(self, obj):
         pr_link = obj.pr_links.first()
 
@@ -39,7 +37,7 @@ class DailyTaskSerializer(serializers.ModelSerializer):
             return None
 
         return TaskPRLinkSerializer(pr_link).data
-    
+
 class DailyReportGetSerializer(serializers.ModelSerializer):
     tasks = DailyTaskSerializer(many=True)
 
@@ -50,7 +48,5 @@ class DailyReportGetSerializer(serializers.ModelSerializer):
             "report_date",
             "description",
             "status",
-            "tasks",
-            "created_at",
-            "updated_at"
+            "tasks"
         ]
