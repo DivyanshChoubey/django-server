@@ -11,10 +11,11 @@ from service.utils import Authentication
 
 class DailyReportUpdateView(APIView):
     def patch(self, request):
+        # Auth
         user, token = Authentication.authenticate(request=request)
 
+        # Serialize Payload
         serializer = DailyReportUpdateSerializer(data=request.data)
-
         if not serializer.is_valid():
             return Response(
                 {
@@ -24,16 +25,12 @@ class DailyReportUpdateView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return self._update_daily_report_data(
-            user=user,
-            validated_data=serializer.validated_data,
-        )
+        data = serializer.validated_data
 
-    def _update_daily_report_data(self, user, validated_data):
         try:
             with transaction.atomic():
                 daily_report = self._get_daily_report(
-                    report_id=validated_data.get("id"),
+                    report_id=data.get("id"),
                     user=user,
                 )
 
@@ -46,21 +43,21 @@ class DailyReportUpdateView(APIView):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 
-                self._update_instance_fields(
-                    instance=daily_report,
-                    data=validated_data,
-                    allowed_fields=["report_date", "description", "status"],
+                self._update_daily_report(
+                    daily_report=daily_report,
+                    data=data,
                 )
 
                 error_response = self._process_tasks(
                     daily_report=daily_report,
-                    tasks=validated_data.get("tasks", []),
+                    tasks=data.get("tasks", []),
                 )
 
                 if error_response:
                     return error_response
 
-        except Exception:
+        except Exception as e:
+            print(e)
             return Response(
                 {
                     "success": False,
@@ -83,11 +80,20 @@ class DailyReportUpdateView(APIView):
             user=user,
         ).first()
 
+    def _update_daily_report(self, daily_report, data):
+        if data.get("description") is not None:
+            daily_report.description = data.get("description")
+
+        if data.get("status") is not None:
+            daily_report.status = data.get("status")
+
+        daily_report.save()
+
     def _process_tasks(self, daily_report, tasks):
-        for task in tasks:
-            daily_task = self._update_or_create_task(
+        for task_data in tasks:
+            daily_task = self._get_daily_task(
+                task_id=task_data.get("id"),
                 daily_report=daily_report,
-                task=task,
             )
 
             if daily_task is None:
@@ -99,77 +105,73 @@ class DailyReportUpdateView(APIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            self._handle_pr_link(
+            self._update_daily_task(
                 daily_task=daily_task,
-                task=task,
+                task_data=task_data,
             )
+
+            pr_link_data = task_data.get("pr_link")
+
+            if pr_link_data:
+                task_pr_link = self._get_task_pr_link(
+                    pr_link_id=pr_link_data.get("id"),
+                    daily_task=daily_task,
+                )
+
+                if task_pr_link is None:
+                    return Response(
+                        {
+                            "success": False,
+                            "message": ResponseMessages.PR_LINK_NOT_FOUND,
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                self._update_task_pr_link(
+                    task_pr_link=task_pr_link,
+                    pr_link_data=pr_link_data,
+                )
 
         return None
 
-    def _update_or_create_task(self, daily_report, task):
-        task_id = task.get("id")
-
-        if task_id:
-            daily_task = DailyTask.objects.filter(
-                id=task_id,
-                report=daily_report,
-            ).first()
-
-            if daily_task is None:
-                return None
-
-            self._update_instance_fields(
-                instance=daily_task,
-                data=task,
-                allowed_fields=[
-                    "title",
-                    "description",
-                    "is_development_task",
-                    "status",
-                    "hours",
-                    "minutes",
-                ],
-            )
-
-            return daily_task
-
-        return DailyTask.objects.create(
+    def _get_daily_task(self, task_id, daily_report):
+        return DailyTask.objects.filter(
+            id=task_id,
             report=daily_report,
-            title=task.get("title"),
-            description=task.get("description"),
-            is_development_task=task.get("is_development_task", False),
-            status=task.get("status"),
-            hours=task.get("hours", 0),
-            minutes=task.get("minutes", 0),
-        )
+        ).first()
 
-    def _update_instance_fields(self, instance, data, allowed_fields):
-        updated_fields = []
-
-        for field in allowed_fields:
-            if field in data and data.get(field) is not None:
-                setattr(instance, field, data.get(field))
-                updated_fields.append(field)
-
-        if updated_fields:
-            instance.save(update_fields=updated_fields)
-
-    def _handle_pr_link(self, daily_task, task):
-        pr_link = task.get("pr_link")
-
+    def _update_daily_task(self, daily_task, task_data):
         if daily_task.is_development_task is False:
             daily_task.pr_links.all().delete()
-            return
+        
+        if task_data.get("title") is not None:
+            daily_task.title = task_data.get("title")
 
-        if not pr_link:
-            return
+        if task_data.get("description") is not None:
+            daily_task.description = task_data.get("description")
 
-        pr_url = pr_link.get("url")
+        if task_data.get("is_development_task") is not None:
+            daily_task.is_development_task = task_data.get("is_development_task")
 
-        if not pr_url:
-            return
+        if task_data.get("status") is not None:
+            daily_task.status = task_data.get("status")
 
-        TaskPRLink.objects.update_or_create(
+        if task_data.get("hours") is not None:
+            daily_task.hours = task_data.get("hours")
+
+        if task_data.get("minutes") is not None:
+            daily_task.minutes = task_data.get("minutes")
+
+        daily_task.save()
+
+    def _get_task_pr_link(self, pr_link_id, daily_task):
+        return TaskPRLink.objects.filter(
+            id=pr_link_id,
             task=daily_task,
-            defaults={"pr_url": pr_url},
-        )
+        ).first()
+
+    def _update_task_pr_link(self, task_pr_link, pr_link_data):
+        if pr_link_data.get("url") is not None:
+            task_pr_link.pr_url = pr_link_data.get("url")
+
+        task_pr_link.save()
