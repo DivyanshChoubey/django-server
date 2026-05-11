@@ -3,16 +3,16 @@ from service.constants import TaskConstants, DailyReportConstants
 
 
 class TaskPRLinkUpdateSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=True, allow_null=True)
+    id = serializers.IntegerField(required=False, allow_null=True)
     url = serializers.URLField(required=False, allow_blank=True)
 
 
 class DailyTaskUpdateSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=True, allow_null=True)
-    title = serializers.CharField(max_length=255, required = False)
+    id = serializers.IntegerField(required=False, allow_null=True)
+    title = serializers.CharField(max_length=255, required=False)
     description = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     is_development_task = serializers.BooleanField(required=False)
-    pr_link = TaskPRLinkUpdateSerializer(required=False)
+    pr_link = TaskPRLinkUpdateSerializer(many=True, required=False)
     status = serializers.ChoiceField(
         choices=TaskConstants.STATUS_CHOICES,
         required=False
@@ -22,10 +22,10 @@ class DailyTaskUpdateSerializer(serializers.Serializer):
 
 
 class DailyReportUpdateSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=True, allow_null=True)
-    description = serializers.CharField(required=False, allow_blank=True, allow_null =True)
+    id = serializers.IntegerField(required=True)
+    description = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     status = serializers.ChoiceField(
         choices=DailyReportConstants.STATUS_CHOICES,
-        required=False 
+        required=False
     )
     tasks = DailyTaskUpdateSerializer(many=True, required=False)
