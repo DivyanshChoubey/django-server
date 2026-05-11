@@ -31,3 +31,4 @@ class ResponseMessages:
     REPORT_NOT_FOUND = "Daily report not found"
     TASK_NOT_FOUND = "Daily task not found"
     REPORT_UPDATE_SUCCESS = "Daily report updated successfully"
+    SOMETHING_WENT_WRONG = "Something went wrong."
