@@ -1,10 +1,9 @@
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from service.models import DailyReport, DailyTask, TaskPRLink, Users
 from service.serializers import DailyReportCreateSerializer
-from service.utils import Authentication
+from service.utils import Authentication, ResponseHandler
 from service.constants import ResponseMessages
 
 class DailyReportCreateView(APIView):
@@ -13,11 +12,9 @@ class DailyReportCreateView(APIView):
         serializer = DailyReportCreateSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return Response(
-                {
-                    "success": False,
-                    "errors": serializer.errors
-                },
+            return ResponseHandler(
+                success=False,
+                errors=serializer.errors,
                 status = status.HTTP_400_BAD_REQUEST
             )
         
@@ -28,11 +25,9 @@ class DailyReportCreateView(APIView):
 
         existing_report = self._check_existing_report(report_date, user)
         if existing_report:
-            return Response(
-                {
-                    "success": False,
-                    "errors": f"Report already exists for {report_date}"
-                },
+            return ResponseHandler(
+                success=False,
+                errors= f"Report already exists for {report_date}",
                 status = status.HTTP_400_BAD_REQUEST
             )
         
@@ -41,11 +36,9 @@ class DailyReportCreateView(APIView):
             is_development_task = task.get("is_development_task")
         
             if not is_development_task and pr_link:
-                return Response(
-                    {
-                        "success": False,
-                        "message": ResponseMessages.INVALID_PR_LINK
-                    },
+                return ResponseHandler(
+                    success=False,
+                    message=ResponseMessages.INVALID_PR_LINK,
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
@@ -74,11 +67,9 @@ class DailyReportCreateView(APIView):
                     pr_url=pr_link.get("url")
                 )
 
-        return Response(
-            {
-                "success": True,
-                "message": "Daily report created successfully",
-            },
+        return ResponseHandler(
+            success=True,
+            message="Daily report created successfully",
             status=status.HTTP_201_CREATED
         ) 
 

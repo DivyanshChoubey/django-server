@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from service.utils import ResponseHandler
 
 
 from service.constants import ResponseMessages
@@ -13,7 +14,8 @@ class HealthCheckView(APIView):
         """
         Health check endpoint to verify if the service is up and running.
         """
-        return Response({
-            "success": True,
-            "message" : ResponseMessages.SERVICE_UP,
-        }, status=status.HTTP_200_OK)
+        return ResponseHandler(
+            success=True,
+            message=ResponseMessages.SERVICE_UP,
+            status=status.HTTP_200_OK
+        )
