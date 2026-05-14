@@ -6,13 +6,13 @@ from django.conf import settings
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
 from service.constants import ResponseMessages
 from service.models import UserActiveToken, Users
 from service.serializers import LoginSerializer
+from service.utils import ResponseHandler
 
 
 class LoginView(APIView):
@@ -22,12 +22,10 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.INVALID_DATA,
-                    "errors": serializer.errors
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.INVALID_DATA,
+                errors=serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -37,20 +35,16 @@ class LoginView(APIView):
         try:
             user = Users.objects.get(email=email)
         except Users.DoesNotExist:
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.EMAIL_NOT_EXISTS
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.EMAIL_NOT_EXISTS,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if not self.check_password(password, user.password):
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.INCORRECT_PASSWORD
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.INCORRECT_PASSWORD,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -71,14 +65,12 @@ class LoginView(APIView):
             expire_at=timezone.now() + timedelta(days=1)
         )
 
-        return Response(
-            {
-                "success": True,
-                "message": ResponseMessages.LOGIN_SUCCESS,
-                "data": {
-                    "token": token,
-                    "user_id": user.id
-                }
+        return ResponseHandler(
+            success=True,
+            message=ResponseMessages.LOGIN_SUCCESS,
+            data={
+                "token": token,
+                "user_id": user.id
             },
             status=status.HTTP_200_OK
         )

@@ -1,12 +1,11 @@
 from django.db import transaction
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
 from service.models import DailyReport, DailyTask, TaskPRLink
 from service.serializers import DailyReportUpdateSerializer
-from service.utils import Authentication
+from service.utils import Authentication , ResponseHandler
 
 
 class DailyReportUpdateView(APIView):
@@ -19,12 +18,10 @@ class DailyReportUpdateView(APIView):
         # Serialize Payload
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
-            return Response(
-                {
-                    "success": False,
-                    "errors": serializer.errors,
-                },
-                status=status.HTTP_400_BAD_REQUEST,
+            return ResponseHandler(
+                success=False,
+                errors=serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
             )
 
         data = serializer.validated_data
@@ -37,12 +34,10 @@ class DailyReportUpdateView(APIView):
                 )
 
                 if daily_report is None:
-                    return Response(
-                        {
-                            "success": False,
-                            "message": ResponseMessages.REPORT_NOT_FOUND,
-                        },
-                        status=status.HTTP_400_BAD_REQUEST,
+                    return ResponseHandler(
+                        success=False,
+                        message=ResponseMessages.REPORT_NOT_FOUND,
+                        status=status.HTTP_400_BAD_REQUEST
                     )
 
                 self._update_daily_report(
@@ -57,24 +52,20 @@ class DailyReportUpdateView(APIView):
 
                 if error_response:
                     return error_response
+                
+                return ResponseHandler(
+                    success=True,
+                    message=ResponseMessages.REPORT_UPDATE_SUCCESS,
+                    status=status.HTTP_201_CREATED
+                )
 
         except Exception as e:
             print(e)
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.SOMETHING_WENT_WRONG,
-                },
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.SOMETHING_WENT_WRONG,
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
-        return Response(
-            {
-                "success": True,
-                "message": ResponseMessages.REPORT_UPDATE_SUCCESS,
-            },
-            status=status.HTTP_200_OK,
-        )
 
     def _get_daily_report(self, report_id, user):
         return DailyReport.objects.filter(
@@ -102,12 +93,10 @@ class DailyReportUpdateView(APIView):
                 )
 
                 if daily_task is None:
-                    return Response(
-                        {
-                            "success": False,
-                            "message": ResponseMessages.TASK_NOT_FOUND,
-                        },
-                        status=status.HTTP_400_BAD_REQUEST,
+                    return ResponseHandler(
+                        success=False,
+                        message=ResponseMessages.TASK_NOT_FOUND,
+                        status=status.HTTP_400_BAD_REQUEST
                     )
 
                 self._update_daily_task(
@@ -211,12 +200,10 @@ class DailyReportUpdateView(APIView):
                 )
 
                 if task_pr_link is None:
-                    return Response(
-                        {
-                            "success": False,
-                            "message": ResponseMessages.PR_LINK_NOT_FOUND,
-                        },
-                        status=status.HTTP_400_BAD_REQUEST,
+                    return ResponseHandler(
+                        success=False,
+                        message=ResponseMessages.PR_LINK_NOT_FOUND,
+                        status=status.HTTP_400_BAD_REQUEST
                     )
 
                 self._update_task_pr_link(

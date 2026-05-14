@@ -1,10 +1,10 @@
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
 from service.models import Teams, Users
 from service.serializers import TeamCreateSerializer
+from service.utils import ResponseHandler
 
 
 class TeamCreateView(APIView):
@@ -12,12 +12,10 @@ class TeamCreateView(APIView):
         serializer = TeamCreateSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.INVALID_DATA,
-                    "errors": serializer.errors
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.INVALID_DATA,
+                errors=serializer.errors,
                 status = status.HTTP_400_BAD_REQUEST
             )
 
@@ -30,11 +28,9 @@ class TeamCreateView(APIView):
             try:
                 user = Users.objects.get(id = created_by)
             except Users.DoesNotExist:
-                return Response(
-                    {
-                        "success": False,
-                        "message": ResponseMessages.INVALID_CREATED_BY
-                    },
+                return ResponseHandler(
+                    success=False,
+                    message=ResponseMessages.INVALID_CREATED_BY,
                     status = status.HTTP_400_BAD_REQUEST 
                 )
 
@@ -44,14 +40,12 @@ class TeamCreateView(APIView):
             created_by = user
         )
 
-        return Response(
-            {
-                "success": True,
-                "message": ResponseMessages.TEAM_CREATED,
-                "data": {
-                    "id": team.id,
-                    "name":team.name
-                }
+        return ResponseHandler(
+            success=True,
+            message= ResponseMessages.TEAM_CREATED,
+            data={
+                "id": team.id,
+                "name":team.name
             },
             status = status.HTTP_201_CREATED
         )

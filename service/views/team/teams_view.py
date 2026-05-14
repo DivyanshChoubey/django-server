@@ -1,10 +1,10 @@
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
 from service.models import Teams
 from service.serializers import TeamSerializer
+from service.utils import ResponseHandler
 
 
 class TeamsView(APIView):
@@ -12,11 +12,9 @@ class TeamsView(APIView):
         teams = Teams.objects.all().order_by("-id")
         serializer = TeamSerializer(teams, many=True)
 
-        return Response(
-            {
-                "success": True,
-                "message": ResponseMessages.TEAM_FETCH,
-                "data": serializer.data
-            },
+        return ResponseHandler(
+            success=True,
+            message=ResponseMessages.TEAM_FETCH,
+            data=serializer.data,
             status = status.HTTP_200_OK
         )

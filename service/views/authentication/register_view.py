@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from service.constants import ResponseMessages
 from service.models import Users
 from service.serializers import RegisterSerializer
+from service.utils import ResponseHandler
 
 
 class RegisterView(APIView):
@@ -14,12 +15,10 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.INVALID_DATA,
-                    "errors": serializer.errors
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.INVALID_DATA,
+                errors=serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -27,11 +26,9 @@ class RegisterView(APIView):
         email = validated_data.get("email")
 
         if Users.objects.filter(email=email).exists():
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.USER_ALREADY_EXISTS
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.USER_ALREADY_EXISTS,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -45,10 +42,8 @@ class RegisterView(APIView):
             user_type=validated_data.get("user_type")
         )
 
-        return Response(
-            {
-                "success": True,
-                "message": ResponseMessages.USER_CREATED
-            },
+        return ResponseHandler(
+            success=True,
+            message=ResponseMessages.USER_CREATED,
             status=status.HTTP_201_CREATED
         )

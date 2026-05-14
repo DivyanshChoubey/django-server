@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
 from service.models import UserActiveToken
-from service.serializers import LogoutSerializer
+from service.utils import ResponseHandler
 
 
 class LogoutView(APIView):
@@ -13,11 +13,9 @@ class LogoutView(APIView):
         user = request.user
 
         if not token:
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.UNAUTHORIZED
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.UNAUTHORIZED,
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
@@ -28,18 +26,14 @@ class LogoutView(APIView):
         ).update(is_active=False)
 
         if updated_count == 0:
-            return Response(
-                {
-                    "success": False,
-                    "message": ResponseMessages.NO_ACTIVE_SESSION_FOUND
-                },
+            return ResponseHandler(
+                success=False,
+                message=ResponseMessages.NO_ACTIVE_SESSION_FOUND,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        return Response(
-            {
-                "success": True,
-                "message": ResponseMessages.LOGOUT_SUCCESS
-            },
+        return ResponseHandler(
+            success=True,
+            message=ResponseMessages.LOGOUT_SUCCESS,
             status=status.HTTP_200_OK
         )
