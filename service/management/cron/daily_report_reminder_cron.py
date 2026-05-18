@@ -10,8 +10,8 @@ class DailyReportReminderCron:
 
     def initiate(self):
         users = self.get_users_to_remind()
-        send_mail = BulkMailHandler()
-        send_mail.send_bulk_email(users)
+        bulk_mail_handler = BulkMailHandler()
+        bulk_mail_handler.send_bulk_email(users)
 
     def get_users_to_remind(self):
         return Users.objects.filter(
