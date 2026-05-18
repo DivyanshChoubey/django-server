@@ -14,8 +14,8 @@ class EmailHandler:
             fail_silently=fail_silently,
         )
 
-    def send_bulk_email(self, users):
-        for first_name, email in users:
+    def send_bulk_email(self, data):
+        for first_name, email in data:
             print(first_name)
             print(email)
 
