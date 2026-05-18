@@ -19,15 +19,13 @@ class EmailHandler:
             print(first_name)
             print(email)
 
-            send_mail(
+            self.send_email(
                 subject="Daily Report Reminder",
                 message=(
                     f"Hello {first_name},\n\n"
                     "This is a reminder to submit your daily report for today.\n\n"
                     "Thanks."
                 ),
-                from_email=None,
-                recipient_list=[email],
-                fail_silently=False,
+                recipient_list=[email]
             )
             print(f"Reminder mail sent to {email}")
