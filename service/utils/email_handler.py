@@ -1,9 +1,18 @@
 from django.core.mail import send_mail
 
 
-class BulkMailHandler:
+class EmailHandler:
     def __init__(self):
         pass
+
+    def send_email(self, subject, message, recipient_list, from_email=None, fail_silently=False):
+        send_mail(
+            subject=subject,
+            message=message,
+            recipient_list=recipient_list,
+            from_email=from_email,
+            fail_silently=fail_silently,
+        )
 
     def send_bulk_email(self, users):
         for first_name, email in users:

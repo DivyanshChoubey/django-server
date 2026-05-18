@@ -1,6 +1,6 @@
 from service.constants import DailyReportConstants
 from service.models import Users
-from service.utils import BulkMailHandler, DateUtils
+from service.utils import EmailHandler, DateUtils
 
 
 class DailyReportReminderCron:
@@ -9,7 +9,7 @@ class DailyReportReminderCron:
 
     def initiate(self):
         users = self.get_users_to_remind()
-        bulk_mail_handler = BulkMailHandler()
+        bulk_mail_handler = EmailHandler()
         bulk_mail_handler.send_bulk_email(users)
 
     def get_users_to_remind(self):
