@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 
+
 class BulkMailHandler:
     def __init__(self):
         pass

@@ -1,7 +1,8 @@
 from datetime import datetime
-from rest_framework.views import APIView
-from rest_framework import status
+
 from django.db.models import Q
+from rest_framework import status
+from rest_framework.views import APIView
 
 from service.constants import ResponseMessages
 from service.models import DailyReport

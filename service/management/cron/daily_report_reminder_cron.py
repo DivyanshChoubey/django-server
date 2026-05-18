@@ -1,7 +1,6 @@
 from service.constants import DailyReportConstants
 from service.models import Users
-from service.utils import DateUtils
-from service.utils import BulkMailHandler
+from service.utils import BulkMailHandler, DateUtils
 
 
 class DailyReportReminderCron:

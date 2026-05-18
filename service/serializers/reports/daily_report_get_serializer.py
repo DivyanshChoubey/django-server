@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from service.models import DailyReport, DailyTask, TaskPRLink
 
+
 class TaskPRLinkSerializer(serializers.ModelSerializer):
     url = serializers.CharField(source="pr_url")
 

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from service.constants import TaskConstants, DailyReportConstants
+
+from service.constants import DailyReportConstants, TaskConstants
 
 
 class TaskPRLinkUpdateSerializer(serializers.Serializer):

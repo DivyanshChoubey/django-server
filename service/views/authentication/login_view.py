@@ -1,5 +1,6 @@
-from datetime import timedelta, datetime
 import uuid
+from datetime import datetime, timedelta
+
 import bcrypt
 import jwt
 from django.conf import settings
@@ -7,7 +8,6 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
-
 
 from service.constants import ResponseMessages
 from service.models import UserActiveToken, Users

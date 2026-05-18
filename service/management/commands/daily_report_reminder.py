@@ -1,5 +1,7 @@
 import time
+
 from django.core.management.base import BaseCommand
+
 from service.management.cron import DailyReportReminderCron
 from service.utils import logger
 
