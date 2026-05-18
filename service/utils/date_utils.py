@@ -1,5 +1,6 @@
 from django.utils import timezone
 
+
 class DateUtils:
     def __init__(self):
         pass

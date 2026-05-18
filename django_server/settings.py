@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'service',
     'rest_framework',
     'drf_yasg',
-    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -108,10 +107,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
-
-CRONJOBS = [
-    ("*/1 * * * *", "service.cron.daily_report_reminder.send_daily_report_reminder")
-]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"

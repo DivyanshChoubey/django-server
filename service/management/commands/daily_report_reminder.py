@@ -17,13 +17,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         interval = options.get("interval")
-
         self.stdout.write(
             self.style.SUCCESS(
                 f"Daily report reminder cron started. Interval: {interval} seconds"
             )
         )
-
         while True:
             try:
                 cron = DailyReportReminderCron()
@@ -34,10 +32,8 @@ class Command(BaseCommand):
                         "Daily report reminder cron executed successfully"
                     )
                 )
-
             except Exception as error:
                 self.stdout.write(
                     self.style.ERROR(f"Cron failed: {str(error)}")
                 )
-
             time.sleep(interval)
