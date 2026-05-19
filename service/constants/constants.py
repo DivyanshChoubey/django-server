@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import status
 
 
@@ -44,3 +46,9 @@ class TaskConstants:
         (IN_PROGRESS, "In Progress"),
         (COMPLETED, "Completed"),
     )
+
+class ReportReminderConstants:
+    REPORT_REMINDER_CRON_TIME_INTERVAL = int(os.getenv("REPORT_REMINDER_CRON_TIME_INTERVAL"))
+    REPORT_REMINDER_CRON_SPECIFIC_TIME = os.getenv("REPORT_REMINDER_CRON_SPECIFIC_TIME")
+    REPORT_REMINDER_CRON_RUN_MODE = os.getenv("REPORT_REMINDER_CRON_RUN_MODE")
+    REPORT_REMINDER_CRON_SLEEP_SECONDS = int(os.getenv("REPORT_REMINDER_CRON_SLEEP_SECONDS"))
