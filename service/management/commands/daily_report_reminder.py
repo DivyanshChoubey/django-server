@@ -10,6 +10,19 @@ from service.constants import ResponseMessages, ReportReminderConstants
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        if not ReportReminderConstants.REPORT_REMINDER_CRON_EXECUTION:
+            self.stdout.write(
+                self.style.ERROR(
+                    ResponseMessages.CRON_OFF
+                )
+            )
+            return
+        else:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    ResponseMessages.CRON_ON
+                )
+            )
         run_mode = ReportReminderConstants.REPORT_REMINDER_CRON_RUN_MODE
 
         if run_mode == "specific_time":
