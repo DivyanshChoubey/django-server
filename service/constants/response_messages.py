@@ -39,6 +39,6 @@ class ResponseMessages:
     REMINDER_EMAILS_SENT_SUCCESS = "Daily report reminder emails successfully."
     REMINDER_EMAIL_SENT_SUCCESSFULLY = "Email sent successfully to the user who did not submit their report."
     INTERVAL_REMINDER_EMAIL_SENT_SUCCESSFULLY = "Interval Email sent to the user who did not submit their report."
-    CRON_OFF = "Daily report reminder cron is OFF."
-    CRON_ON = "Daily report reminder cron is ON."
+    REPORT_REMINDER_CRON_OFF = "Daily report reminder cron is OFF."
+    REPORT_REMINDER_CRON_ON = "Daily report reminder cron is ON."
     

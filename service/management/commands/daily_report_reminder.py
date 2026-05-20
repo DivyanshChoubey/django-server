@@ -13,14 +13,14 @@ class Command(BaseCommand):
         if not ReportReminderConstants.REPORT_REMINDER_CRON_EXECUTION:
             self.stdout.write(
                 self.style.ERROR(
-                    ResponseMessages.CRON_OFF
+                    ResponseMessages.REPORT_REMINDER_CRON_OFF
                 )
             )
             return
         else:
             self.stdout.write(
                 self.style.SUCCESS(
-                    ResponseMessages.CRON_ON
+                    ResponseMessages.REPORT_REMINDER_CRON_ON
                 )
             )
         run_mode = ReportReminderConstants.REPORT_REMINDER_CRON_RUN_MODE
