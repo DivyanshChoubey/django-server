@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from service.constants import ResponseMessages
 from service.models import DailyReport, DailyTask, TaskPRLink
 from service.serializers import DailyReportUpdateSerializer
-from service.utils import Authentication , ResponseHandler
+from service.utils import Authentication, ResponseHandler
 
 
 class DailyReportUpdateView(APIView):

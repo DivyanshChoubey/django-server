@@ -3,7 +3,9 @@ from rest_framework.views import APIView
 
 from service.constants import Constants, ResponseMessages
 from service.models import DepartmentMaster, Users
-from service.serializers import DepartmentSerializer, DepartmentCreateSerializer, DepartmentUpdateSerializer
+from service.serializers import (DepartmentCreateSerializer,
+                                 DepartmentSerializer,
+                                 DepartmentUpdateSerializer)
 from service.utils import ResponseHandler
 
 
